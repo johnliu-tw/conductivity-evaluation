@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conductivity Checker</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/style.css?v=12">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100">
+  <header class="bg-blue-500 text-white text-center py-4 text-xl font-semibold">
+    Conductivity Evaluation
+  </header>
+  <div id="app" class="max-w-lg mx-auto p-4 mt-10 bg-white rounded-lg shadow">
+      <div class="text-xl font-bold text-left mb-4">Playground</div>
+      <textarea id="gridInput" class="w-full h-32 p-2 border-2 border-gray-300 rounded-md focus:border-blue-500" placeholder="Enter grid data..."></textarea>
+      <div class="flex justify-between mt-4">
+          <button id="checkBtn" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 focus:outline-none">Check Conductivity</button>
+          <button id="generateBtn" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700 focus:outline-none">Generate Random</button>
+      </div>
+      <div class="text-xl font-bold text-left mb-4 mt-4">File Upload</div>
+      <div class="flex justify-between mt-4 mb-6">
+        <input type="file" id="fileInput" class="p-2 border-2 border-gray-300 rounded-md focus:border-blue-500">
+        <a href="public/example.txt" download="example.txt" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700 focus:outline-none leading-8">Download Example</a>
+      </div>
+      
+      <div class="text-xl font-bold text-left mb-4 mt-4">Evaluation Result</div>
+      <div id="result" class="p-4 bg-gray-200 rounded-md flex items-center">
+          <span class="material-icons">assessment</span>
+          <span class="ml-2">Evaluation result will show here</span>
+      </div>
+      <div id="gridVisualization" class="mt-4"></div>
+  </div>
+  <script src="public/script.js"></script>
+</body>
+</html>

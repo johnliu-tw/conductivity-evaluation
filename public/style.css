@@ -1,0 +1,30 @@
+/* style.css */
+
+#app {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+.grid-row {
+  display: flex;
+  justify-content: center;
+}
+
+.grid-cell {
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.conductive {
+  background-color: yellow;
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-size: 24px;
+  line-height: 1;
+}
