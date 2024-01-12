@@ -1,15 +1,16 @@
-const { showErrorAlert, showInputAlert } = require('./popup.js');
+const { showErrorAlert, showInputAlert } = require('./popup.js')
+const EXISTENCE_RESPONSE = 'YES';
 
 // Upload file functionality
 document.getElementById('fileInput').addEventListener('change', function (event) {
     const file = event.target.files[0]
     if (!file) {
-      return
+        return
     }
 
     if (file.type !== 'text/plain') {
-        showErrorAlert('Invalid file type', 'Please upload a .txt file.');
-        return;
+        showErrorAlert('Invalid file type', 'Please upload a .txt file.')
+        return
     }
 
     const reader = new FileReader()
@@ -22,7 +23,7 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 // Check conductivity path functionality
 document.getElementById('checkBtn').addEventListener('click', function () {
     const gridData = document.getElementById('gridInput').value
-    fetch('http://localhost:3000/evaluate', {
+    fetch('/evaluate', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -32,7 +33,7 @@ document.getElementById('checkBtn').addEventListener('click', function () {
         .then((response) => response.json())
         .then((data) => {
             if (data.error) {
-                showErrorAlert('Error', data.error);
+                showErrorAlert('Error', data.error)
             } else {
                 displayResult(data)
             }
@@ -43,18 +44,19 @@ document.getElementById('checkBtn').addEventListener('click', function () {
 })
 
 function displayResult(data) {
+    const result = data.message;
     const gridData = document.getElementById('gridInput').value.split('\n')
     const gridVisualization = document.getElementById('gridVisualization')
     gridVisualization.innerHTML = ''
 
-    // 創建網格視覺化
+    // Start to paint the grid
     gridData.forEach((row, rowIndex) => {
         const rowDiv = document.createElement('div')
         rowDiv.classList.add('grid-row')
         row.split('').forEach((cell, colIndex) => {
             const cellDiv = document.createElement('div')
             cellDiv.classList.add('grid-cell')
-            if (data.message === 'YES' && isPathCell(rowIndex, colIndex, data.path)) {
+            if (result === EXISTENCE_RESPONSE && isPathCell(rowIndex, colIndex, data.path)) {
                 cellDiv.classList.add('conductive')
             }
             cellDiv.textContent = cell
@@ -63,10 +65,10 @@ function displayResult(data) {
         gridVisualization.appendChild(rowDiv)
     })
 
-    // 更新結果顯示
+    // Refresh the result div
     const resultElement = document.getElementById('result')
-    resultElement.innerText = 'Has conductive path: ' + data.message
-    resultElement.className = data.message === 'YES' ? 'text-green-500' : 'text-red-500'
+    resultElement.innerText = 'Has conductive path: ' + result
+    resultElement.className = result === EXISTENCE_RESPONSE ? 'text-green-500' : 'text-red-500'
 }
 
 function isPathCell(x, y, path) {
@@ -76,12 +78,14 @@ function isPathCell(x, y, path) {
 // Generate random gird functionality
 document.getElementById('generateBtn').addEventListener('click', function () {
     showInputAlert('Enter the grid size (N x N)', 'Generate', (result) => {
-        if (result.value) {
-            const n = parseInt(result.value)
-            const randomGrid = generateRandomGrid(n)
-            document.getElementById('gridInput').value = gridToString(randomGrid)
+        if (!result.value) {
+            return
         }
-    });
+
+        const n = parseInt(result.value)
+        const randomGrid = generateRandomGrid(n)
+        document.getElementById('gridInput').value = gridToString(randomGrid)
+    })
 })
 
 function generateRandomGrid(n) {
