@@ -15,13 +15,13 @@ class Database {
     }
 
     initialize() {
-        this.db.run('CREATE TABLE IF NOT EXISTS evaluations (grid TEXT, result TEXT, path TEXT)')
+        this.db.run('CREATE TABLE IF NOT EXISTS evaluations (grid TEXT, result TEXT, path TEXT, datetime DATETIME)')
     }
 
     addEvaluation(grid, result, path) {
         return new Promise((resolve, reject) => {
             this.db.run(
-                'INSERT INTO evaluations (grid, result, path) VALUES (?, ?, ?)',
+                'INSERT INTO evaluations (grid, result, path, datetime) VALUES (?, ?, ?, datetime("now"))',
                 [JSON.stringify(grid), result, JSON.stringify(path)],
                 function (err) {
                     if (err) {

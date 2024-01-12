@@ -29,13 +29,12 @@ app.post('/evaluate', (req, res) => {
 
     db.addEvaluation(grid, result.result, result.path)
         .then((id) => {
-            res.send({ result })
+            res.send({ message: result.result, path: result.path })
         })
         .catch((err) => {
             console.error(err)
             res.status(500).send('Error processing request')
-        })
-    res.send({ message: result.result, path: result.path })
+        });
 })
 
 app.listen(port, () => {
