@@ -5,6 +5,15 @@ document.getElementById('fileInput').addEventListener('change', function (event)
       return
     }
 
+    if (file.type !== 'text/plain') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid file type',
+            text: 'Please upload a .txt file.',
+        });
+        return;
+    }
+
     const reader = new FileReader()
     reader.onload = function (e) {
         document.getElementById('gridInput').value = e.target.result
