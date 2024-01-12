@@ -28,8 +28,10 @@ Create `.env` file or clone `.env.sample` file
 Next, you'll need to bundle the front-end JavaScript using Browserify. This step is crucial to compile the client-side script so that it's compatible with web browsers. Run the following command:
 
 ```bash
-npm install -g browserify
+npm install -g browserify nodemon
 ```
+
+We install `nodemon` together because our starting application command need that.
 
 Then, execute the browserify
 ```bash
