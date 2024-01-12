@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const path = require('path');
 const ConductivityChecker = require('./classes/conductivityChecker')
 const { isValidGrid } = require('./classes/validator')
 const db = require('./classes/database')
@@ -10,6 +11,11 @@ const port = process.env.PORT || 3000
 
 app.use(express.json())
 app.use(cors())
+
+app.get('/download-example', (req, res) => {
+    const filePath = path.join(__dirname, 'public', 'example.txt');
+    res.download(filePath);
+});
 
 app.post('/evaluate', (req, res) => {
     const grid = req.body.grid
