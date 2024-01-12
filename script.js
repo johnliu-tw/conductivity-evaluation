@@ -1,3 +1,5 @@
+const { showErrorAlert, showInputAlert } = require('./popup.js');
+
 // Upload file functionality
 document.getElementById('fileInput').addEventListener('change', function (event) {
     const file = event.target.files[0]
@@ -6,11 +8,7 @@ document.getElementById('fileInput').addEventListener('change', function (event)
     }
 
     if (file.type !== 'text/plain') {
-        Swal.fire({
-            icon: 'error',
-            title: 'Invalid file type',
-            text: 'Please upload a .txt file.',
-        });
+        showErrorAlert('Invalid file type', 'Please upload a .txt file.');
         return;
     }
 
@@ -24,10 +22,6 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 // Check conductivity path functionality
 document.getElementById('checkBtn').addEventListener('click', function () {
     const gridData = document.getElementById('gridInput').value
-    checkConductivity(gridData)
-})
-
-function checkConductivity(gridData) {
     fetch('http://localhost:3000/evaluate', {
         method: 'POST',
         headers: {
@@ -38,12 +32,7 @@ function checkConductivity(gridData) {
         .then((response) => response.json())
         .then((data) => {
             if (data.error) {
-                // 使用 SweetAlert 顯示錯誤訊息
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: data.error,
-                })
+                showErrorAlert('Error', data.error);
             } else {
                 displayResult(data)
             }
@@ -51,7 +40,7 @@ function checkConductivity(gridData) {
         .catch((error) => {
             console.error('Error:', error)
         })
-}
+})
 
 function displayResult(data) {
     const gridData = document.getElementById('gridInput').value.split('\n')
@@ -86,27 +75,13 @@ function isPathCell(x, y, path) {
 
 // Generate random gird functionality
 document.getElementById('generateBtn').addEventListener('click', function () {
-    Swal.fire({
-        title: 'Enter the grid size (N x N)',
-        input: 'number',
-        inputAttributes: {
-            min: 1,
-            step: 1,
-        },
-        showCancelButton: true,
-        confirmButtonText: 'Generate',
-        inputValidator: (value) => {
-            if (!value || value < 1) {
-                return 'Please enter a valid number!'
-            }
-        },
-    }).then((result) => {
+    showInputAlert('Enter the grid size (N x N)', 'Generate', (result) => {
         if (result.value) {
             const n = parseInt(result.value)
             const randomGrid = generateRandomGrid(n)
             document.getElementById('gridInput').value = gridToString(randomGrid)
         }
-    })
+    });
 })
 
 function generateRandomGrid(n) {
